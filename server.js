@@ -24,6 +24,10 @@ app.use(express.json());
 const subscribersRouter = require('./routes/subscribers');
 app.use('/subscribers', subscribersRouter); // Use the subscribers routerapp.use('/subscribers'), subscribersRouter) // Use the subscribers router
 
+//test route//
+app.get('/hello', (req, res) => {
+  res.send('Hello from the server!');
+});
 
 // Import routes
 
