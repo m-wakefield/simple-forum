@@ -36,7 +36,20 @@ router.post('/', async (req, res) => {
 })
 
 router.patch('/:id', getSubscriber, (req, res) => {
+    if (req.body.name != null) {
+        res.subscriber.name = req.body.name;
+    }
+    if (req.body.subscribedToChannel != null) {
+        res.subscriber.subscribedToChannel = req.body.subscribedToChannel;
+    }
 
+    try {
+        const updatedSubscriber = res.subscriber.save();
+        res.json(updatedSubscriber);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+    
 })
 
 router.delete('/:id', getSubscriber, async (req, res) => {
