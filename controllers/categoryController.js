@@ -1,6 +1,5 @@
 const Category = require('../models/Category');
 
-// GET all categories
 exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.find();
@@ -10,7 +9,6 @@ exports.getCategories = async (req, res) => {
   }
 };
 
-// POST a new category
 exports.addCategory = async (req, res) => {
   const { name } = req.body;
   try {
