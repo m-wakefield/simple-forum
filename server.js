@@ -1,40 +1,20 @@
-require('dotenv').config();
-
 const express = require('express');
+const dotenv = require('dotenv');
 const cors = require('cors');
-const mongoose = require('mongoose');
+const connectDB = require('./config/db');
 
-mongoose.connect(process.env.ATLAS_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-const db = mongoose.connection;
-db.on('error', (error) => console.error(error))
-db.once('open', () => console.log('Connected to MongoDB'));
-
-
-
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-app.use(cors());
-app.use(express.json());
-
-const subscribersRouter = require('./routes/subscribers');
-app.use('/subscribers', subscribersRouter); // Use the subscribers routerapp.use('/subscribers'), subscribersRouter) // Use the subscribers router
-
-//test route//
-app.get('/hello', (req, res) => {
-  res.send('Hello from the server!');
-});
-
-// Import routes
-
-
+// Load env variables
+dotenv.config();
 
 // Connect to MongoDB
-app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`); 
-});
+connectDB();
 
+const app = express();
+app.use(cors());
+app.use(express.json()); // Parses JSON request bodies
+
+// Routes
+app.use('/api/auth', require('./routes/authRoutes'));
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
