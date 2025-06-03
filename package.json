@@ -1,0 +1,23 @@
+{
+  "name": "simple-forum",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-wakefield/simple-forum.git"
+  },
+  "author": "Monique Wakefield",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-wakefield/simple-forum/issues"
+  },
+  "homepage": "https://github.com/m-wakefield/simple-forum#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.15.1"
+  }
+}
