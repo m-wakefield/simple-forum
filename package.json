@@ -2,9 +2,9 @@
   "name": "simple-forum",
   "version": "1.0.0",
   "main": "server.js",
-"scripts": {
-  "devStart": "nodemon server.js"
-},
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/m-wakefield/simple-forum.git"
@@ -17,7 +17,11 @@
   "homepage": "https://github.com/m-wakefield/simple-forum#readme",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.17.0",
     "mongoose": "^8.15.1"
   },
   "devDependencies": {
