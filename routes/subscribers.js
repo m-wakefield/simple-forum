@@ -94,7 +94,7 @@ router.get('/:id', getSubscriber, (req, res) => {
 });
 
 // Create a new subscriber
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
     const subscriber = new Subscriber({
         name: req.body.name,
         subscribedToChannel: req.body.subscribedToChannel
@@ -109,7 +109,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update a subscriber
-router.patch('/:id', getSubscriber, async (req, res) => {
+router.patch('/:id', getSubscriber, (req, res) => {
     if (req.body.name != null) {
         res.subscriber.name = req.body.name;
     }
@@ -126,7 +126,7 @@ router.patch('/:id', getSubscriber, async (req, res) => {
 });
 
 // Delete a subscriber
-router.delete('/:id', getSubscriber, async (req, res) => {
+router.delete('/:id', getSubscriber, (req, res) => {
     try {
         await res.subscriber.remove();
         res.json({ message: 'Deleted subscriber' });
