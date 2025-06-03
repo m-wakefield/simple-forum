@@ -16,8 +16,8 @@ router.get('/',  async (req, res) => {
     res.send('List of subscribers');
 })
 
-router.get('/:id', (req, res) => {
-   res.send(req.params.id)   
+router.get('/:id', getSubscriber, (req, res) => {
+   res.json(req.subscriber.name)   
 })
 
 router.post('/', async (req, res) => {
@@ -35,12 +35,18 @@ router.post('/', async (req, res) => {
 
 })
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', getSubscriber, (req, res) => {
 
 })
 
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', getSubscriber, async (req, res) => {
+    try {
+        await req.subscriber.remove();
+        res.json({ message: 'Deleted subscriber' });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+        
+    }
 })
 
 function getSubscriber(req, res, next) {
