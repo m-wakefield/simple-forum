@@ -1,5 +1,6 @@
 const Category = require('../models/Category');
 
+// Get all caregiving categories
 exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.find();
@@ -9,11 +10,14 @@ exports.getCategories = async (req, res) => {
   }
 };
 
+// Add a new caregiving category
 exports.addCategory = async (req, res) => {
   const { name } = req.body;
   try {
     const existing = await Category.findOne({ name });
-    if (existing) return res.status(400).json({ message: 'Category already exists' });
+    if (existing) {
+      return res.status(400).json({ message: 'Category already exists' });
+    }
 
     const category = new Category({ name });
     await category.save();
