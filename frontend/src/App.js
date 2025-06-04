@@ -7,14 +7,15 @@ function App() {
   useEffect(() => {
     axios.get('https://caregiving-forum-api.onrender.com/api/test')
       .then(res => setMessage(res.data))
-     .catch(err => {
-  console.error("❌ API Error:", err);
-  if (err.response) {
-    setMessage("❌ " + err.response.data.message);
-  } else {
-    setMessage("❌ API failed");
-  }
-});
+      .catch(err => {
+        console.error("❌ API Error:", err);
+        if (err.response) {
+          setMessage("❌ " + err.response.data.message);
+        } else {
+          setMessage("❌ API failed");
+        }
+      });
+  }, []); // 👈 THIS was likely missing!
 
   return (
     <div style={{ padding: '2rem' }}>
