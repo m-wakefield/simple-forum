@@ -1,18 +1,10 @@
-const Category = require('../models/Category');
+// ...existing code...
 
-// Get all caregiving categories
-exports.getCategories = async (req, res) => {
-  try {
-    const categories = await Category.find();
-    res.status(200).json(categories);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
-// Add a new caregiving category
 exports.addCategory = async (req, res) => {
   const { name } = req.body;
+  if (!name || name.trim() === '') {
+    return res.status(400).json({ message: 'Category name is required' });
+  }
   try {
     const existing = await Category.findOne({ name });
     if (existing) {
@@ -26,3 +18,4 @@ exports.addCategory = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+// ...existing code...
