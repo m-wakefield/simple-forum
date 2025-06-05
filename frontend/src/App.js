@@ -1,28 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+//app.js
+const express = require('express');
+const connectDB = require('./config/db');
+require('dotenv').config();
 
-function App() {
-  const [message, setMessage] = useState('');
+const app = express();
 
-  useEffect(() => {
-    axios.get('https://caregiving-forum-api.onrender.com/api/test')
-      .then(res => setMessage(res.data))
-      .catch(err => {
-        console.error("❌ API Error:", err);
-        if (err.response) {
-          setMessage("❌ " + err.response.data.message);
-        } else {
-          setMessage("❌ API failed");
-        }
-      });
-  }, []); // 👈 THIS was likely missing!
+// Connect to MongoDB
+connectDB();
 
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>React + API Test</h1>
-      <p>{message}</p>
-    </div>
-  );
+app.get('/', (req, res) => {
+  res.send('Welcome to the Caregiving Forum API!');
 }
+);  
 
-export default App;
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+}); 
