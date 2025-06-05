@@ -1,71 +1,50 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const http = require('http');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const dotenv = require('dotenv');
+const { Server } = require('socket.io');
 
-// Load env variables
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
-
 const app = express();
-app.use(cors({ origin: '*' })); // Allow all origins (for now)
-app.use(express.json()); // Parses JSON request bodies
+const server = http.createServer(app);
 
-// Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-
-const categoryRoutes = require('./routes/categoryRoutes');
-app.use('/api/categories', categoryRoutes);
-
-const subscribersRouter = require('./routes/subscribers');
-app.use('/subscribers', subscribersRouter);
-
-app.get('/api/test', (req, res) => {
-  res.send('✅ Server route works!');
-});
-app.get('/', (req, res) => {
-  res.send('Welcome to the Caregiving Forum API!');
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const mongoose = require('mongoose');
-
-// Load env variables
-dotenv.config();
-
-// Connect to MongoDB
-connectDB();
-
-const app = express();
-app.use(cors());
 app.use(cors({
-  origin: '*', // Allow all origins (for now)
+  origin: '*',
 }));
+app.use(express.json());
 
-app.use(express.json()); // Parses JSON request bodies
-
-
-// Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-
-const categoryRoutes = require('./routes/categoryRoutes');
-app.use('/api/categories', categoryRoutes);
-
-const subscribersRouter = require('./routes/user');
-app.use('/subscribers', subscribersRouter);
-
-app.get('/api/test', (req, res) => {
-  res.send('✅ Server route works!');
-});
+// Basic root
 app.get('/', (req, res) => {
-  res.send('Welcome to the Caregiving Forum API!');
+  res.send('✅ API is running');
 });
 
+// Socket.IO setup
+const io = new Server(server, {
+  cors: {
+    origin: '*', // frontend URL here later
+    methods: ['GET', 'POST'],
+  }
+});
+
+// Handle socket connections
+io.on('connection', (socket) => {
+  console.log('🟢 New client connected:', socket.id);
+
+  socket.on('login', (username) => {
+    console.log(`👤 ${username} logged in`);
+    // You can emit back to client if needed
+    socket.emit('loginSuccess', `Welcome ${username}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('🔴 Client disconnected:', socket.id);
+  });
+});
+
+// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
+// Connect to MongoDB
