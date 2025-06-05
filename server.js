@@ -3,6 +3,9 @@ const http = require('http');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const { Server } = require('socket.io');
+// Load environment variables
+const connectDB = require('./config/db');
+connectDB();
 
 dotenv.config();
 
@@ -41,6 +44,12 @@ io.on('connection', (socket) => {
     console.log('🔴 Client disconnected:', socket.id);
   });
 });
+
+
+// Import routes
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
